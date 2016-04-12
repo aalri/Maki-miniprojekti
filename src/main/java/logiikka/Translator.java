@@ -46,7 +46,7 @@ public class Translator {
             if (Character.isUpperCase(s.charAt(i))) {
                 sb.append("{");
                 sb.append(s.charAt(i));
-                sb.append("{");
+                sb.append("}");
             } else {
                 sb.append(s.charAt(i));
             }
