@@ -1,17 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package logiikka;
 
 import java.io.FileWriter;
 import referencechampion.Book;
 
-/**
- *
- * @author airta
- */
 public class Translator {
 
     private FileWriter fw;
@@ -39,19 +30,28 @@ public class Translator {
         sb.append(" = ");
         inputParam(sb, book.getField(field));
     }
+    
+    public static String compileUmlauts(String s) {
+        String compiled = s.toLowerCase();
+        compiled = compiled.toUpperCase().charAt(0) + compiled.substring(1);
+        compiled = compiled.replace("ä", "\\\"{a}")
+                           .replace("ö", "\\\"{o}")
+                           .replace("å", "\\aa");
 
+        return compiled;
+    }
+    
     private void inputParam(StringBuilder sb, String field) {
         sb.append("\"");
-        sb.append(field);
+        String compiledfield = compileUmlauts(field);
+        sb.append(compiledfield);
         sb.append("\",\n");
     }
-
+    
     private void writeInFile(String bibtexString) {
         try {
             fw.write(bibtexString);
-            System.out.println(bibtexString);
         } catch (Exception e) {
-            System.out.println("HUPS");
         }
 
     }
