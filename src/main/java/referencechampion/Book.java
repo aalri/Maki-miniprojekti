@@ -32,5 +32,9 @@ public class Book {
     public Set<String> getFields() {
         return this.fields.keySet();
     }
+    
+    public String getAuthor() {
+        return this.fields.get("author");
+    }
 
 }

@@ -1,17 +1,17 @@
 
 package referencechampion;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 
 public class BookTest {
     
-    Book book = new Book("key", "title", "year", "publisher", "author", "volume", "series",
-                        "address", "edition", "month", "note");
+    private Book book;
     
     public BookTest() {
     }
@@ -19,7 +19,12 @@ public class BookTest {
 
     @Before
     public void setUp() {
-        
+        HashMap<String,String> values= new HashMap<String,String>();
+        values.put("key", "key");
+        values.put("title", "title");
+        values.put("author", "author");
+        values.put("publisher", "publisher");
+        book = new Book(values);
     }
     
     @Test
@@ -28,16 +33,7 @@ public class BookTest {
     
     @Test
     public void constructorSetsFieldsCorrectly() {
-        assertEquals("key", book.getField("key"));
-        assertEquals("title", book.getField("title"));
-        assertEquals("year", book.getField("year"));
-        assertEquals("publisher", book.getField("publisher"));
-        assertEquals("author", book.getField("author"));
-        assertEquals("series", book.getField("volume"));
-        assertEquals("address", book.getField("series"));
-        assertEquals("edition", book.getField("address"));
-        assertEquals("month", book.getField("edition"));
-        assertEquals("note", book.getField("note"));
+        assertEquals("author", book.getAuthor());
     }
     
 }
