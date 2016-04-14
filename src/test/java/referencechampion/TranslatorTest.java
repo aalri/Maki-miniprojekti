@@ -38,10 +38,7 @@ public class TranslatorTest {
     public void tearDown() {
     }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> upstream/master
     @Test
     public void bookHasCorrectOutPutOfBook() throws IOException {
         String expected = "@book{book,\n"
