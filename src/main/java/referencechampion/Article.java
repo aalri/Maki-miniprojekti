@@ -1,5 +1,6 @@
 package referencechampion;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -36,8 +37,17 @@ public class Article implements Reference {
     }
 
     @Override
-    public Set<String> getFields() {
-        return this.fields.keySet();
+    public ArrayList<String> getFields() {
+        return new ArrayList<String>(this.fields.values());
     }
-
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (!obj.getClass().equals(Article.class)) return false;
+        
+        Article article = (Article) obj;
+        
+        return article.getField("title").equals(this.getField("title")) 
+                && article.getField("author").equals(this.getField("author"));
+    }
 }

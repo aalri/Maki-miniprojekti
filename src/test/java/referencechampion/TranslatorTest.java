@@ -46,12 +46,6 @@ public class TranslatorTest {
     public void tearDown() {
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
-<<<<<<< HEAD
     @Test
     public void bookHasCorrectOutPutOfBook() throws IOException {
         String expected = "@book{book,\n"
@@ -71,7 +65,7 @@ public class TranslatorTest {
         String actual = translator.translateReference(reference, "book");
         assertEquals(expected, actual);
     }
-=======
+
 //    @Test
 //    public void bookHasCorrectOutPutOfBook() throws IOException {
 //        String expected = "@book{book,\n"
@@ -91,5 +85,4 @@ public class TranslatorTest {
 //        String actual = translator.translateReference(reference, "book");
 //        assertEquals(expected, actual);
 //    }
->>>>>>> 61799e231555aa95e018b0ebd888c7dd3225f2e9
 }

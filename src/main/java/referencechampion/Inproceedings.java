@@ -10,6 +10,7 @@ package referencechampion;
  *
  * @author alrial
  */
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -20,12 +21,12 @@ public class Inproceedings implements Reference {
     
 
     public Inproceedings() {
-        this("", "", "", "", "", "", "", "", "", "", "");
+        this("", "", "", "", "", "", "", "", "", "", "", "");
     }
 
     public Inproceedings(String key, String title, String year, String publisher, String author,
-            String volume, String series, String address, String edition, String month,
-            String note) {
+            String volume, String series, String address, String editor, String month,
+            String booktitle, String note) {
         fields = new HashMap<String, String>();
         this.fields.put("key", key);
         this.fields.put("title", title);
@@ -35,8 +36,9 @@ public class Inproceedings implements Reference {
         this.fields.put("volume", volume);
         this.fields.put("series", series);
         this.fields.put("address", address);
-        this.fields.put("edition", edition);
+        this.fields.put("editor", editor);
         this.fields.put("month", month);
+        this.fields.put("booktitle", booktitle);
         this.fields.put("note", note);
     }
 
@@ -50,8 +52,17 @@ public class Inproceedings implements Reference {
     }
 
     @Override
-    public Set<String> getFields() {
-        return this.fields.keySet();
+    public ArrayList<String> getFields() {
+        return new ArrayList<String>(this.fields.values());
     }
-
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (!obj.getClass().equals(Inproceedings.class)) return false;
+        
+        Inproceedings inproceedings = (Inproceedings) obj;
+        
+        return inproceedings.getField("title").equals(this.getField("title")) 
+                && inproceedings.getField("author").equals(this.getField("author"));
+    }
 }
