@@ -1,7 +1,7 @@
-package logiikka;
+package referencechampion;
 
 import java.io.FileWriter;
-import referencechampion.Book;
+import java.io.IOException;
 
 public class Translator {
 
@@ -11,27 +11,42 @@ public class Translator {
         this.fw = fw;
     }
 
-    public void translateBook(Book book) {
+    public String translateReference(Reference reference, String type) throws IOException {
         StringBuilder sb = new StringBuilder();
-        sb.append("@book{");
-        sb.append(book.getField("key"));
+        sb.append("@");
+        sb.append(type);
+        sb.append("{");
+        sb.append(reference.getField("key"));
         sb.append(",\n");
-        for (String field : book.getFields()) {
-            appendField(sb, field, book);
+        for (String field : reference.getFields()) {
+            appendField(sb, field, reference);
         }
-        sb.append("}");
-
+        sb.append("}\n");
         writeInFile(sb.toString());
+        return sb.toString();
     }
+    
+//    public void translateBook(Book book) {
+//        StringBuilder sb = new StringBuilder();
+//        sb.append("@book{");
+//        sb.append(book.getField("key"));
+//        sb.append(",\n");
+//        for (String field : book.getFields()) {
+//            appendField(sb, field, book);
+//        }
+//        sb.append("}\n");
+//        System.out.println(sb.toString());
+//        writeInFile(sb.toString());
+//    }
 
-    private void appendField(StringBuilder sb, String field, Book book) {
+    private void appendField(StringBuilder sb, String field, Reference reference) {
         sb.append("\t");
         sb.append(compileUmlauts(field));
         sb.append(" = ");
-        inputParam(sb, book.getField(field));
+        inputParam(sb, reference.getField(field));
     }
 
-    public String compileUmlauts(String s) {
+    private String compileUmlauts(String s) {
         String ret = capsuleUpperCases(s);
         ret = ret.replace("ä", "\\\"{a}")
                 .replace("ö", "\\\"{o}")
@@ -61,11 +76,8 @@ public class Translator {
         sb.append("\",\n");
     }
 
-    private void writeInFile(String bibtexString) {
-        try {
+    private void writeInFile(String bibtexString) throws IOException {
             fw.write(bibtexString);
-        } catch (Exception e) {
-        }
 
     }
 }

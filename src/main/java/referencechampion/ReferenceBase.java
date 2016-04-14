@@ -7,7 +7,6 @@ package referencechampion;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import logiikka.Translator;
 
 /**
  *
@@ -33,13 +32,13 @@ public class ReferenceBase {
     
     public void translateAll() throws IOException {
         for (Book book : refCol.getList()) {
-            translator.translateBook(book);
+            translator.translateReference(book, "book");
         }
-        fileWriter.close();
+        fileWriter.flush();
     }
     
-    public void addBook(Book book) {
-        refCol.addBook(book);
+    public boolean addBook(Book book) {
+        return refCol.addBook(book);
     }
 
 }

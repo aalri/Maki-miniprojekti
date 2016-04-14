@@ -11,8 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.JLabel;
 import referencechampion.Book;
-import referencechampion.ReferenceCollection;
+import referencechampion.ReferenceBase;
 
 /**
  *
@@ -20,20 +21,32 @@ import referencechampion.ReferenceCollection;
  */
 public class CreateBook implements ActionListener {
     
-    private ReferenceCollection collection;
-    Map<String, Field> fields;
+    private ReferenceBase base;
+    private HashMap<String, String> bookValues;
+    private Map<String, Field> fields;
+    private JLabel result;
     
-    public CreateBook(Map<String, Field> fields){
+    public CreateBook(Map<String, Field> fields, ReferenceBase base, JLabel result){
         this.fields = fields;
-        
+        this.base = base;
+        this.result = result;
+        bookValues = new HashMap<String,String>();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        HashMap<String, String> values = new HashMap<String, String>();
-        for (String s : fields.keySet()) {
-            values.put(s, fields.get(e).getText());
+        if (fields!=null) {
+            for (String s : fields.keySet()) {
+                bookValues.put(s, fields.get(s).getText());
+            }
         }
-        collection.addBook(new Book(values));
+        
+        if (base.addBook(new Book(bookValues))) result.setText("New reference added");
+        else result.setText("One or more required fields are empty");
     }
+    
+    public void setBookValues(HashMap<String,String> values) {
+        this.bookValues = values;
+    }
+    
 }
