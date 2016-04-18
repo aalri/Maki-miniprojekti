@@ -1,4 +1,3 @@
-
 package referencechampion;
 
 import java.util.ArrayList;
@@ -6,40 +5,40 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-
 public class BookTest {
-    
-    Book book;
-    
+
+    ReferenceEntity book;
+
     public BookTest() {
     }
-   
+
     @Before
     public void setUp() {
-        
-        book = new Book("key", "title", "year", "publisher", "author", "volume", "series",
-"address", "edition", "month", "note");
+        book = new ReferenceEntity("book");
     }
-    
+
     @Test
     public void setOfFieldNamesIsReturnedCorrectly() {
         ArrayList<String> expected = new ArrayList<String>();
         expected.add("key");
-        expected.add("title");
-        expected.add("year");
-        expected.add("publisher");
         expected.add("author");
+        expected.add("title");
+        expected.add("publisher");
         expected.add("volume");
         expected.add("series");
         expected.add("address");
         expected.add("edition");
+        expected.add("year");
         expected.add("month");
         expected.add("note");
-        assertEquals(true, book.getFields().equals(expected));
+        assertTrue(book.getFields().equals(expected));
     }
-    
+
     @Test
     public void constructorInitiatesFieldsCorrectly() {
+        for (String field : ReferenceCollection.getBook()) {
+            book.addValue(field, field);
+        }
         assertEquals("key", book.getField("key"));
         assertEquals("title", book.getField("title"));
         assertEquals("year", book.getField("year"));
@@ -52,10 +51,12 @@ public class BookTest {
         assertEquals("month", book.getField("month"));
         assertEquals("note", book.getField("note"));
     }
-    
+
     @Test
     public void constructorWithoutParametersInitiatesFieldsCorrectly() {
-        book = new Book();
+        for (String field : ReferenceCollection.getBook()) {
+            book.addValue(field, "");
+        }
         assertEquals("", book.getField("key"));
         assertEquals("", book.getField("title"));
         assertEquals("", book.getField("year"));

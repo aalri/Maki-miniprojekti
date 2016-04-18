@@ -1,7 +1,7 @@
 import gui.stub.*
 import java.util.HashMap
 
-description 'User can add a book in reference collection'
+description 'User can add a book to the reference collection'
 
 scenario "user can fill out the form correctly and add a book", {
     given 'command add a reference is selected', {
@@ -11,6 +11,7 @@ scenario "user can fill out the form correctly and add a book", {
     when 'a valid title and author are entered', {
        HashMap<String, String> input = new HashMap<String,String>()
 
+       input.put("key", "book")
        input.put("title", "a book")
        input.put("author", "an author")
        input.put("publisher", "a publisher")
