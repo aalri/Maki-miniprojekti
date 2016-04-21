@@ -3,6 +3,7 @@ package gui;
 import gui.actionlisteners.CreateReference;
 import gui.actionlisteners.SelectType;
 import gui.actionlisteners.Translate;
+import gui.actionlisteners.UpdateReferences;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -17,6 +18,8 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import referencechampion.ReferenceBase;
 import referencechampion.ReferenceCollection;
@@ -36,12 +39,13 @@ public class UI implements Runnable {
     private Translate translateAction;
     private SelectType selectTypeAction;
     private ReferenceBase base;    
+    private JTextField filename;
 
     public UI(int width, int height, ReferenceBase base) {
         this.windowWidth = width;
         this.windowHeight = height;
         this.base = base;       
-        this.fields = new HashMap<>();
+        this.fields = new HashMap<String, Field>();
     }
 
     @Override
@@ -96,11 +100,16 @@ public class UI implements Runnable {
         addReferencePage.add(typeList);
 
         this.result = createLabel("Fields with * are required", 20, 600, 400, 30, addReferencePage);
-        result.setName("result"); //testejä varten
+        this.result.setName("result");
+             
+        createLabel("Filename:", 260, 480, 60, 30, addReferencePage);
+        this.filename = createTextField("references", 320, 480, 120, 30, addReferencePage);
+        this.filename.setHorizontalAlignment(SwingConstants.RIGHT);
+        createLabel(".bib", 440, 480, 60, 30, addReferencePage);      
         
         
         this.createReferenceAction = new CreateReference(this.fields, this.base, this.result, typeList);
-        this.translateAction = new Translate(base);
+        this.translateAction = new Translate(base, this.filename);
 
         createButton("Create a reference", 20, 520, 200, 30, createReferenceAction, addReferencePage);
         createButton("Create a BibTex file", 260, 520, 200, 30, translateAction,  addReferencePage);
@@ -123,7 +132,7 @@ public class UI implements Runnable {
         scrollPane.setBounds(10, 60, 500, 550);
         listingPage.add(scrollPane);
 
-        createButton("Update List", 300, 20, 200, 30, null, listingPage);
+        createButton("Update List", 300, 20, 200, 30, new UpdateReferences(base, listing), listingPage);
     }
 
     
@@ -149,8 +158,15 @@ public class UI implements Runnable {
         container.add(label);
         return label;
     }
+    
+    public JTextField createTextField(String name, int x, int y, int width, int length, Container container){
+        JTextField textField = new JTextField(name);
+        textField.setBounds(x, y, width, length);       
+        container.add(textField);
+        return textField;
+    }
 
-    public JFrame getWindow() { //testejä varten
+    public JFrame getWindow() { //testejÃ¤ varten
         return window;
     }
 }
