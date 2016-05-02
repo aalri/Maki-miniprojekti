@@ -39,28 +39,10 @@ public class CreateReference implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Reference reference = selection.getReference();
-        if (fields != null) {
-            for (String s : fields.keySet()) {
-                reference.addValue(s, fields.get(s).getText());
-            }
-        }
+        Reference reference = getReference();
 
         if (base.addReference(reference)) {
-            result.setForeground(Color.green);
-            result.setText("New reference added");
-            // result.setFont(new Font(result.getName(), Font.PLAIN, 22));
-
-            ActionListener taskPerformer = new ActionListener() {
-                public void actionPerformed(ActionEvent evt) {
-                    result.setText("Fields with * are required");
-                    result.setForeground(Color.BLACK);
-                }
-            };
-            Timer timer = new Timer(5000, taskPerformer);
-            timer.setRepeats(false);
-            timer.start();
-            FieldCreator.emptyFields(this.fields);
+            addReference();
         } else {
             result.setText("One or more required fields are empty");
             result.setForeground(Color.RED);
@@ -69,5 +51,34 @@ public class CreateReference implements ActionListener {
 
     public void setReferenceValues(HashMap<String, String> values) {
         this.referenceValues = values;
+    }
+
+    private Reference getReference() {
+        Reference reference = selection.getReference();
+
+        if (fields != null) {
+            for (String s : fields.keySet()) {
+                reference.addValue(s, fields.get(s).getText());
+            }
+        }
+
+        return reference;
+    }
+
+    private void addReference() {
+        result.setForeground(Color.green);
+        result.setText("New reference added");
+        // result.setFont(new Font(result.getName(), Font.PLAIN, 22));
+
+        ActionListener taskPerformer = new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                result.setText("Fields with * are required");
+                result.setForeground(Color.BLACK);
+            }
+        };
+        Timer timer = new Timer(5000, taskPerformer);
+        timer.setRepeats(false);
+        timer.start();
+        FieldCreator.emptyFields(this.fields);
     }
 }
