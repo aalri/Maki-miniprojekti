@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui.actionlisteners;
 
 import gui.Field;
@@ -38,22 +33,10 @@ public class CreateReference implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Reference reference = selection.getReference();
-        if (fields != null) {
-            for (String s : fields.keySet()) {
-                reference.addValue(s, fields.get(s).getText());
-            }
-        }
+        Reference reference = getReference();
 
         if (base.addReference(reference)) {
-            result.setForeground(DARK_GREEN);
-            result.setText("New reference added");
-            ActionListener taskPerformer = timer();
-            Timer timer = new Timer(5000, taskPerformer);
-            timer.setRepeats(false);
-            timer.start();
-            FieldCreator.emptyFields(this.fields);
-            selection.actionPerformed(null);
+            addReference();
         } else {
             result.setText("One or more required fields are empty");
             result.setForeground(Color.RED);
@@ -69,5 +52,28 @@ public class CreateReference implements ActionListener {
             }
         };
         return taskPerformer;
+    }
+
+    private Reference getReference() {
+        Reference reference = selection.getReference();
+
+        if (fields != null) {
+            for (String s : fields.keySet()) {
+                reference.addValue(s, fields.get(s).getText());
+            }
+        }
+
+        return reference;
+    }
+
+    private void addReference() {
+        result.setForeground(DARK_GREEN);
+            result.setText("New reference added");
+            ActionListener taskPerformer = timer();
+            Timer timer = new Timer(5000, taskPerformer);
+            timer.setRepeats(false);
+            timer.start();
+            FieldCreator.emptyFields(this.fields);
+            selection.actionPerformed(null);
     }
 }
